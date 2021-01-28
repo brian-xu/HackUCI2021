@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>HackUCI Demo</title>
+
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+
+    <script crossorigin="anonymous"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('#classifyfile').attr('disabled', true);
+                $('#imagefile').change(
+                    function () {
+                        if ($(this).val()) {
+                            $('#formupload').submit();
+                        }
+                    }
+                );
+            }
+        );
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1><a href="/">HackUCI Demo</a></h1>
+    </div>
+
+    {% if has_result %}
+    {% if not result[0] %}
+    <!-- we have error in the result. -->
+    <div class="alert alert-danger">Error: {{ result[1] }}</div>
+    {% else %}
+    <div class="media">
+        <div class="media-body">
+            {% for item in result %}
+            <figure class="figure">
+                <img class="media-object" height="256" width="256" src={{ item[0] }}>
+                <figcaption class="figure-caption text-center">{{item[1]}}</figcaption>
+            </figure>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <hr>
+    {% endif %}
+
+    <form action="classify_url" method="get" role="form">
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control" id="imageurl" name="imageurl" placeholder="Provide an image URL"
+                       type="text">
+                <span class="input-group-btn">
+                    <input class="btn btn-primary" id="classifyurl" type="submit" value="Classify URL"/>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <form action="classify_upload" class="form-inline" enctype="multipart/form-data" id="formupload" method="post"
+          role="form">
+        <div class="form-group">
+            <label for="imagefile">Or upload an image:</label>
+            <input id="imagefile" name="imagefile" type="file">
+        </div>
+    </form>
+    <hr>
+</div>
+
+</body>
+</html>
