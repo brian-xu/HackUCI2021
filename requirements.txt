@@ -1,5 +1,5 @@
 opencv-python==4.5.1.48
-flask==1.1.2
+flask==2.3.2
 requests==2.25.1
 gdown==3.12.2
 -f https://download.pytorch.org/whl/torch_stable.html
